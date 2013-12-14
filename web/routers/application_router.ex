@@ -23,9 +23,10 @@ defmodule ApplicationRouter do
   get "/game/:game_id" do
     {gameid, _} = Integer.parse(conn.params[:game_id])
     game = Pht.Repo.get Pht.Game, gameid
+    {_, game_json} = Pht.Game.to_json(game)
 
     conn = conn.put_resp_header "Content-Type", "application/json"
-    conn.put_private :result_object, game
+    conn.put_private :result_object, game_json
   end
 
   post "/game" do
@@ -44,9 +45,11 @@ defmodule ApplicationRouter do
     game = game.num_drinks(user_num_drinks)
     game = Pht.Repo.create(game)
 
+    {_, game_json} = Pht.Game.to_json(game)
+
     # game = Pht.Game.new(game_name: conn.params[:game_name])
     conn = conn.put_resp_header "Content-Type", "application/json"
-    conn.put_private :result_object, game
+    conn.put_private :result_object, game_json
   end
 
 end
