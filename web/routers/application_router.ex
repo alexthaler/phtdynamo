@@ -20,6 +20,20 @@ defmodule ApplicationRouter do
     conn.sendfile 200, "public/index.html"
   end
 
+  post "/game/:game_name" do
+    conn = conn.fetch(:body)
+
+    post_data = JSON.decode!(conn.req_body)
+    user_game_name = post_data["game_name"]
+
+    game = Pht.Game.new(game_name: user_game_name)
+    Pht.Repo.create(game)
+
+    # game = Pht.Game.new(game_name: conn.params[:game_name])
+    conn = conn.put_resp_header "Content-Type", "application/json"
+    conn.put_private :result_object, game
+  end
+
   get "/datastore" do
     conn = conn.put_resp_header "Content-Type", "application/json"
     conn.put_private :result_object, [data: "value", foo: "bar"]

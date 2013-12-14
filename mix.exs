@@ -20,7 +20,11 @@ defmodule PhtDynamo.Mixfile do
     [
       { :cowboy, github: "extend/cowboy" },
       { :dynamo, github: "elixir-lang/dynamo" },
-      { :json,   github: "cblage/elixir-json"}
+      { :json,   github: "cblage/elixir-json"},
+      { :postgrex, github: "ericmj/postgrex" },
+      { :ecto, github: "elixir-lang/ecto"},
+      {:"elixir-datetime", github: "alco/elixir-datetime"},
+      {:"elixir-datefmt", github: "alexthaler/elixir-datefmt"}
     ]
   end
 end

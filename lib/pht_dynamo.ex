@@ -18,7 +18,7 @@ defmodule PhtDynamo.Sup do
   end
 
   def init([]) do
-    tree = [worker(PhtDynamo.Dynamo, [])]
+    tree = [worker(PhtDynamo.Dynamo, []), worker(Pht.Repo, [])]
     supervise(tree, strategy: :one_for_all)
   end
 end
