@@ -9,12 +9,19 @@ defmodule ApplicationRouter do
   end
 
   filter Dynamo.Filters.Static.new("/public", "priv/static")
+  filter JSON.Dynamo.Filter
 
   # It is common to break your Dynamo into many
   # routers, forwarding the requests between them:
   # forward "/posts", to: PostsRouter
+
   get "/" do
-    conn = conn.assign(:title, "Welcome to Dynamo!")
-    redirect conn, to: "/static/foo.html", format: :html
+    conn = conn.put_resp_header "Content-Type", "text/html"
+    conn.sendfile 200, "public/index.html"
+  end
+
+  get "/datastore" do
+    conn = conn.put_resp_header "Content-Type", "application/json"
+    conn.put_private :result_object, [data: "value", foo: "bar"]
   end
 end

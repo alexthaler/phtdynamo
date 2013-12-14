@@ -6,6 +6,19 @@ defmodule PhtDynamo do
   application and its Dynamos.
   """
   def start(_type, _args) do
-    PhtDynamo.Dynamo.start_link([max_restarts: 5, max_seconds: 5])
+    PhtDynamo.Sup.start_link
+  end
+end
+
+defmodule PhtDynamo.Sup do
+  use Supervisor.Behaviour
+
+  def start_link do
+    :supervisor.start_link({ :local, __MODULE__ }, __MODULE__, [])
+  end
+
+  def init([]) do
+    tree = [worker(PhtDynamo.Dynamo, [])]
+    supervise(tree, strategy: :one_for_all)
   end
 end
