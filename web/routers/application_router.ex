@@ -52,4 +52,16 @@ defmodule ApplicationRouter do
     conn.put_private :result_object, game_json
   end
 
+  post "/game/:game_id/complete" do
+    {gameid, _} = Integer.parse(conn.params[:game_id])
+    game = Pht.Repo.get Pht.Game, gameid
+    game = game.completed(true)
+
+    Pht.Repo.update(game)
+    {_, game_json} = Pht.Game.to_json(game)
+
+    # game = Pht.Game.new(game_name: conn.params[:game_name])
+    conn = conn.put_resp_header "Content-Type", "application/json"
+    conn.put_private :result_object, game_json
+  end
 end

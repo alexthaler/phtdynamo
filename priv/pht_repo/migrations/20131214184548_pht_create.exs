@@ -7,7 +7,9 @@ defmodule Pht.Repo.Migrations.PhtCreate do
         game_name varchar(200),
         start_time varchar(30),
         end_time varchar(30),
-        num_drinks integer
+        num_drinks integer,
+        completed boolean,
+        active boolean
         )"
   end
 
